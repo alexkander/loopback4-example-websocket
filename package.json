@@ -1,0 +1,27 @@
+{
+  "name": "loopback4-example-websocket",
+  "version": "1.0.0",
+  "description": "",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "prestart": "npm run build",
+    "start": "node .",
+    "build": "lb-tsc",
+    "clean": "lb-clean loopback4-example*.tgz dist package *.tsbuildinfo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@loopback/boot": "^3.0.1",
+    "@loopback/core": "^2.10.1",
+    "@loopback/websocket": "file:../loopback4-extension-websocket",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@loopback/build": "^6.2.4",
+    "@types/express": "^4.17.8",
+    "@types/node": "^14.11.2"
+  }
+}
