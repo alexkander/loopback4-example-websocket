@@ -1,27 +1,60 @@
 {
-  "name": "loopback4-example-websocket",
-  "version": "1.0.0",
-  "description": "",
-  "types": "dist/index.d.ts",
+  "name": "@loopback/example-websocket",
+  "version": "0.0.1",
+  "description": "An example showing how to use @loopback/websocket to handle connections and events via websockets",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10.16"
+  },
+  "author": "IBM Corp.",
+  "copyright.owner": "IBM Corp.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prestart": "npm run build",
     "start": "node .",
     "build": "lb-tsc",
     "clean": "lb-clean loopback4-example*.tgz dist package *.tsbuildinfo"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/strongloop/loopback-next.git",
+    "directory": "examples/websocket"
+  },
   "dependencies": {
     "@loopback/boot": "^3.0.1",
     "@loopback/core": "^2.10.1",
-    "@loopback/websocket": "file:../loopback4-extension-websocket",
-    "express": "^4.17.1"
+    "@loopback/websocket": "git+https://github.com/arondn2/loopback4-extension-websocket.git",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@loopback/build": "^6.2.4",
+    "@loopback/eslint-config": "^10.0.0",
     "@types/express": "^4.17.8",
-    "@types/node": "^14.11.2"
-  }
+    "@types/node": "^14.11.2",
+    "@types/socket.io": "^2.1.11",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-eslint-plugin": "^2.3.0",
+    "eslint-plugin-prettier": "^3.1.4"
+  },
+  "keywords": [
+    "loopback",
+    "LoopBack",
+    "extension",
+    "socket",
+    "Socket",
+    "socketio",
+    "Socket.IO",
+    "socket.io",
+    "Websocket",
+    "websocket",
+    "example"
+  ]
 }

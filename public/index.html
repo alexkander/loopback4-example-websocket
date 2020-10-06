@@ -23,24 +23,15 @@
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       $(function () {
-        var socket = io('/ws/sample');
+        var socket = io('/ws/chat');
         $('form').submit(function(){
           socket.emit('chat message', $('#m').val());
           $('#m').val('');
           return false;
         });
 
-        socket.on('connect', function(msg){
+        socket.on('connect', function(){
           console.log('connected');
-
-          // socket.emit('find', {}, (result) => {
-          //   console.log('find result', result);
-          //
-          //   socket.on(result.subscriptionId, (change) => {
-          //     console.log('find change', change);
-          //   })
-          // });
-
         });
 
         socket.on('chat message', function(msg){
