@@ -4,15 +4,14 @@ export async function main() {
   try {
     const app = new WebsocketSampleApplication({
       websocket: {
-        server: {
+        config: {
           host: '127.0.0.1',
-          port: 0,
+          port: 5000,
         },
-        options: {},
       },
     });
     await app.start();
-    console.log(`Server is running at ${app.websocketServer.url}`);
+    console.log(`Server is running at ${app.wsServer.url}`);
   } catch (err) {
     console.error('Cannot start the application.', err);
     process.exit(1);

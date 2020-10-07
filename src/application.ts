@@ -1,7 +1,8 @@
-import { ApplicationConfig } from '@loopback/core';
+import { Application, ApplicationConfig } from '@loopback/core';
 import {
-  WebsocketApplication,
   WebsocketBindings,
+  WebsocketComponent,
+  WebsocketServer,
   ws,
 } from '@loopback/websocket';
 
@@ -12,9 +13,12 @@ import { ChatController } from './ws-controllers';
 @ws.controller('/ws/sample')
 export class SampleController {}
 
-export class WebsocketSampleApplication extends WebsocketApplication {
+export class WebsocketSampleApplication extends Application {
+  public readonly wsServer: WebsocketServer;
   constructor(options: ApplicationConfig = {}) {
     super(options);
+
+    this.component(WebsocketComponent);
 
     const expressApp = express();
     const root = path.resolve(__dirname, '../public');
@@ -22,6 +26,14 @@ export class WebsocketSampleApplication extends WebsocketApplication {
 
     this.bind(WebsocketBindings.REQUEST_LISTENER).to(expressApp);
 
-    this.websocketServer.route(ChatController);
+    this.wsServer = this.getSync(WebsocketBindings.SERVER);
+
+    this.wsServer.route(ChatController);
+  }
+  async start() {
+    await this.wsServer.start();
+  }
+  async stop() {
+    await this.wsServer.stop();
   }
 }
