@@ -1,7 +1,7 @@
-# loopback4-example-websocket
+# @loopback/example-websocket
 
 This example is created to explore how to expose Websocket [(socket.io)](https://socket.io) endpoints
-in conjunction with LoopBack controllers.
+in conjunction with LoopBack 4 controllers through `@loopback/example-websocket`.
 
 Similarly as @loopback/rest, each websocket server is attached to an http/https
 server. WebSocket controllers are mapped to different routes (namespaces), for
@@ -14,13 +14,15 @@ When a client connects to the endpoint, a controller is instantiated upon the
 `connection` event of the namespace with the `socket` object. Controller methods
 can subscribe to one or more message types and send messages to one or more clients.
 
-Each `socket` can join/leave rooms. Rooms are used to group/tag clients for messaging purposes.
+Each `socket` can join/leave rooms. Rooms are used to group/tag clients for messaging
+purposes.
 
 Middleware can be registered at global and namespace level.
 
 ## Basic use
 
 ```
+npm install
 npm start
 Open your browser to http://localhost:3000
 ```
@@ -28,38 +30,39 @@ Open your browser to http://localhost:3000
 ## Websocket controllers
 
 ```ts
-import {Socket} from 'socket.io';
-import {ws} from '../decorators/websocket.decorator';
+import { Socket } from 'socket.io';
+import { ws } from '@loopback/websocket';
 
-/**
- * A demo controller for websocket
- */
-@ws('/chats')
-export class WebSocketController {
-  constructor(
-    @ws.socket() // Equivalent to `@inject('ws.socket')`
-    private socket: Socket,
-  ) {}
-
+@ws.controller('/ws/chat')
+export class ChatController {
   /**
    * The method is invoked when a client connects to the server
    * @param socket
    */
   @ws.connect()
-  connect(socket: Socket) {
-    console.log('Client connected: %s', this.socket.id);
+  connect(@ws.socket() socket: Socket) {
+    console.log('Client connected: %s', socket.id);
     socket.join('room 1');
   }
 
   /**
    * Register a handler for 'chat message' events
    * @param msg
+   * @param socket
    */
   @ws.subscribe('chat message')
-  // @ws.emit('namespace' | 'requestor' | 'broadcast')
-  handleChatMessage(msg: unknown) {
-    console.log('Message: %s', msg);
-    this.socket.nsp.emit('chat message', `[${this.socket.id}] ${msg}`);
+  handleChatMessage(msg: unknown, @ws.socket() socket: Socket) {
+    console.log('Chat message: %s', msg);
+    socket.nsp.emit('chat message', `[${socket.id}] ${msg}`);
+  }
+
+  /**
+   * Register a handler for all events
+   * @param args
+   */
+  @ws.subscribe(/.+/)
+  logMessage(...args: unknown[]) {
+    console.log('Message: %s', args);
   }
 
   /**
@@ -67,10 +70,30 @@ export class WebSocketController {
    * @param socket
    */
   @ws.disconnect()
-  disconnect() {
-    console.log('Client disconnected: %s', this.socket.id);
+  disconnect(@ws.socket() socket: Socket) {
+    console.log('Client disconnected: %s', socket.id);
   }
 }
+
 ```
 
-[![LoopBack](<https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png>)](http://loopback.io/)
+## References
+- https://github.com/raymondfeng/loopback4-example-websocket/
+
+## Contributions
+
+- [Guidelines](https://github.com/strongloop/loopback-next/blob/master/docs/CONTRIBUTING.md)
+- [Join the team](https://github.com/strongloop/loopback-next/issues/110)
+
+## Tests
+
+Run `npm test` from the root folder.
+
+## Contributors
+
+See
+[all contributors](https://github.com/strongloop/loopback-next/graphs/contributors).
+
+## License
+
+MIT
