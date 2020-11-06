@@ -1,3 +1,6 @@
+# ARCHIVED
+Please use [@loopback/example-socketio](https://www.npmjs.com/package/@loopback/example-socketio) in the main repo [loopback-next](https://github.com/strongloop/loopback-next)
+
 # @loopback/example-websocket
 
 This example is created to explore how to expose Websocket [(socket.io)](https://socket.io) endpoints
